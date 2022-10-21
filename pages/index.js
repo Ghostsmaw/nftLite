@@ -5,6 +5,7 @@ import Profile2 from "../assets/profile-test2.jpeg";
 import Profile3 from "../assets/profile-test3.jpeg";
 import Profile4 from "../assets/profile-test4.jpeg";
 import Profile5 from "../assets/profile-test5.jpeg";
+import Profile6 from "../assets/profile-test6.jpg"
 import Nft1 from "../assets/nft1.png";
 import Nft2 from "../assets/nft2.jpeg";
 import Nft3 from "../assets/nft3.jpeg";
@@ -13,6 +14,7 @@ import Nft5 from "../assets/nft5.jpeg";
 import Nft6 from "../assets/nft6.jpeg";
 import Nft7 from "../assets/nft7.webp";
 import Nft8 from "../assets/nft8.jpeg";
+import Nft9 from "../assets/nft9.png"
 import ArrowLeft from "../assets/arrow-left.png";
 import ArrowRight from "../assets/arrow-right.png";
 import { makeId } from "../utils/makeId";
@@ -25,8 +27,8 @@ const Home = () => {
   const parentRef = useRef(null);
   const scrollRef = useRef(null);
 
-  const images = [Profile1, Profile2, Profile3, Profile4, Profile5];
-  const imagesNft = [Nft1, Nft2, Nft3, Nft4, Nft5, Nft6, Nft7, Nft8];
+  const images = [Profile1, Profile2, Profile3, Profile4, Profile5, Profile6];
+  const imagesNft = [Nft1, Nft2, Nft3, Nft4, Nft5, Nft6, Nft7, Nft8, Nft9];
 
   const handleScroll = (direction) => {
     const { current } = scrollRef;
