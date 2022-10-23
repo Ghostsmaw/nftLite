@@ -1,4 +1,5 @@
 import { useState, useMemo, useCallback, useContext } from "react";
+import { NFTContext } from "../context/NFTContext";
 import { useRouter } from "next/router";
 import { useDropzone } from "react-dropzone";
 import Image from "next/image";
@@ -10,9 +11,15 @@ const CreateNft = () => {
   const [fileUrl, setFileUrl] = useState(null);
   const [formInput, setFormInput] = useState({ price: '', name: '', description: ''});
   const { theme } = useTheme();
+  const { uploadToIPFS, createNFT } = useContext(NFTContext);
+  const router = useRouter();
 
-  const onDrop = useCallback(() => {
-    // upload image to the ipfs
+  console.log({fileUrl})
+
+  const onDrop = useCallback(async (acceptedFile) => {
+    const url = await uploadToIPFS(acceptedFile[0]);
+    console.log({url, acceptedFile});
+    setFileUrl(url);
   }, []);
 
   const {
@@ -126,7 +133,7 @@ const CreateNft = () => {
             <Button 
                 btnName="Create NFT"
                 className="rounded-xl"
-                handleClick={() => {}}
+                handleClick={() => createNFT(formInput, fileUrl, router)}
             />
         </div>
       </div>

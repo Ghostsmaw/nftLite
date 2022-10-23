@@ -8,6 +8,7 @@ import { Button } from "./";
 import nftlite_icon from "../assets/nftlite_icon.png";
 import Cross from "../assets/cross.png";
 import Menu from "../assets/menu.png";
+import { NFTContext } from "../context/NFTContext";
 
 const MenuItems = ({ isMobile, active, setActive }) => {
   const generateLink = (i) => {
@@ -58,23 +59,23 @@ const MenuItems = ({ isMobile, active, setActive }) => {
 };
 
 const ButtonGroup = ({ setActive, router }) => {
-  const hasConnected = false;
-
-  return hasConnected ? (
+  const { connectWallet, currentAccount } = useContext(NFTContext);
+  console.log({currentAccount})
+  return currentAccount ? (
     <Button
       btnName="Create"
       classStyles="mx-2 rounded-xl"
       handleClick={() => {
         setActive("");
         console.log("clicked");
-        router.push("/created-nfts");
+        router.push("/create-nft");
       }}
     />
   ) : (
     <Button
       btnName="Connect"
       classStyles="mx-2 rounded-xl"
-      handleClick={() => {}}
+      handleClick={connectWallet}
     />
   );
 };

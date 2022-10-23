@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext }  from "react";
 import Image from "next/image";
 import Profile1 from "../assets/profile-test1.jpeg";
 import Profile2 from "../assets/profile-test2.jpeg";
@@ -6,8 +6,11 @@ import profile3 from "../assets/profile-test3.jpeg";
 import profile4 from "../assets/profile-test4.jpeg";
 import profile5 from "../assets/profile-test5.jpeg";
 import Tick from "../assets/tick.png";
+import { NFTContext } from "../context/NFTContext";
 
 const CreatorCard = ({ rank, creatorImage, creatorName, creatorEths }) => {
+  const { nftCurrency } = useContext(NFTContext);
+
   return (
     <div
       className="min-w-190 
@@ -36,7 +39,7 @@ const CreatorCard = ({ rank, creatorImage, creatorName, creatorEths }) => {
 
       <div className="mt-3 minlg:mt-7 text-center flexCenter flex-col">
           <p className="font-poppins dark:text-white text-nft-black-1 font-semibold text-base">{creatorName}</p>
-          <p className="mt-1 font-poppins dark:text-white text-nft-black-1 font-semibold text-base">{creatorEths.toFixed(2)}<span className="font-normal">ETH</span></p>
+          <p className="mt-1 font-poppins dark:text-white text-nft-black-1 font-semibold text-base">{creatorEths.toFixed(2)}<span className="font-normal">{nftCurrency}</span></p>
       </div>
     </div>
   );

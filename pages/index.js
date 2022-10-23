@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useContext } from "react";
 import { Banner, CreatorCard, NftCard } from "../components/";
 import Profile1 from "../assets/profile-test1.jpeg";
 import Profile2 from "../assets/profile-test2.jpeg";
@@ -20,12 +20,24 @@ import ArrowRight from "../assets/arrow-right.png";
 import { makeId } from "../utils/makeId";
 import Image from "next/image";
 import { useTheme } from "next-themes";
+import { NFTContext } from "../context/NFTContext";
 
 const Home = () => {
   const [hideButtons, setHideButtons] = useState(false);
   const { theme } = useTheme();
+  const [ nfts, setNfts ] = useState([]);
   const parentRef = useRef(null);
   const scrollRef = useRef(null);
+  const { fetchNFTs } = useContext(NFTContext);
+
+  useEffect(() => {
+    fetchNFTs()
+      .then((items) => {
+        setNfts(items);
+
+        console.log(items)
+      })
+  }, [])
 
   const images = [Profile1, Profile2, Profile3, Profile4, Profile5, Profile6];
   const imagesNft = [Nft1, Nft2, Nft3, Nft4, Nft5, Nft6, Nft7, Nft8, Nft9];
@@ -139,6 +151,9 @@ const Home = () => {
             <div>Search Bar</div>
           </div>
           <div className="mt-3 w-full flex flex-wrap justify-start md:justify-center">
+                {
+                  nfts.map((nft) => <NFTCard key={nft.tokenId} nft={nft} />)
+                }
                 {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
                   <NftCard
                     key={`nft-${i}`}
