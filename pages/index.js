@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useContext } from "react";
-import { Banner, CreatorCard, NftCard } from "../components/";
+import { Banner, CreatorCard, NftCard, SearchBar } from "../components/";
 import Profile1 from "../assets/profile-test1.jpeg";
 import Profile2 from "../assets/profile-test2.jpeg";
 import Profile3 from "../assets/profile-test3.jpeg";
@@ -26,16 +26,17 @@ const Home = () => {
   const [hideButtons, setHideButtons] = useState(false);
   const { theme } = useTheme();
   const [ nfts, setNfts ] = useState([]);
+  const [ nftsCopy, setNftsCopy ] = useState([]);
   const parentRef = useRef(null);
   const scrollRef = useRef(null);
   const { fetchNFTs } = useContext(NFTContext);
+  const [ activeSelect, setActiveSelect ] = useState('Recently added');
 
   useEffect(() => {
     fetchNFTs()
       .then((items) => {
         setNfts(items);
-
-        console.log(items)
+        setNftsCopy(items);
       })
   }, [])
 
@@ -73,6 +74,18 @@ const Home = () => {
       window.removeEventListener("resize", isScrollable);
     };
   });
+
+  const onHandleSearch = (value) => {
+    const filteredNfts = nfts.filter(({ name }) =>
+      name.toLowerCase().includes(value.toLowerCase())
+    );
+
+    if (filteredNfts.length) {
+      setNfts(filteredNfts);
+    } else {
+      setNfts(filteredNfts);
+    }
+  };
 
   return (
     <div className="flex justify-center sm:px-4 p-12">
@@ -148,7 +161,14 @@ const Home = () => {
             >
               Hot Bids
             </h1>
-            <div>Search Bar</div>
+            <div className="flex-2 sm:w-full flex flex-row sm:flex-col">
+            <SearchBar
+              activeSelect={activeSelect}
+              setActiveSelect={setActiveSelect}
+              handleSearch={onHandleSearch}
+            //   clearSearch={onClearSearch}
+            />
+            </div>
           </div>
           <div className="mt-3 w-full flex flex-wrap justify-start md:justify-center">
                 {
@@ -164,13 +184,12 @@ const Home = () => {
                       price: (10 - i * 0.5),
                       seller: `0x${makeId(3)}...${makeId(4)}`,
                       owner: `0x${makeId(3)}...${makeId(4)}`,
-                      description: "Cool NFT for sale"
+                      description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages"
                     }}
                   />
                 ))}
           </div>
         </div>
-
       </div>
     </div>
   );

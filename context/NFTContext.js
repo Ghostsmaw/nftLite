@@ -31,7 +31,7 @@ export const NFTContext = React.createContext();
 
 export const NFTProvider = ({ children }) => {
   const [currentAccount, setCurrentAccount] = useState("");
-  const nftCurrency = "MATIC";
+  const nftCurrency = "ETH";
 
   const checkIfWalletIsConnected = async () => {
     if (!window.ethereum) return alert("Please Install MetaMask");
@@ -188,6 +188,22 @@ export const NFTProvider = ({ children }) => {
     return items;
   };
 
+  const buyNFT = async (nft) => {
+    const web3Modal = new Web3Modal();
+    const connection = await web3Modal.connect();
+    const provider = new ethers.providers.Web3Provider(connection);
+    const signer = provider.getSigner();
+
+    const contract = fetchContract(signer);
+
+    const price = ethers.utils.parseUnits(nft.price.toString(), "ether");
+
+    const transaction = await contract.createMarketSale(nft.tokenId, {value: price});
+
+    await transaction.wait();
+
+  }
+
   return (
     <NFTContext.Provider
       value={{
@@ -197,7 +213,8 @@ export const NFTProvider = ({ children }) => {
         uploadToIPFS,
         createNFT,
         fetchNFTs,
-        fetchMyNFTsOrListedNFTs
+        fetchMyNFTsOrListedNFTs,
+        buyNFT
       }}
     >
       {children}
